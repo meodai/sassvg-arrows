@@ -1,0 +1,26 @@
+{
+  "name": "sassvg-arrows",
+  "version": "1.0.0",
+  "description": "sass SVG arrow generator",
+  "main": "sassvg-arrows.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meodai/sassvg-arrows.git"
+  },
+  "keywords": [
+    "sass",
+    "arros",
+    "styles",
+    "utilities",
+    "scss"
+  ],
+  "author": "meodai <meodai@gmail.com> (https://github.com/meodai/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/meodai/sassvg-arrows/issues"
+  },
+  "homepage": "https://github.com/meodai/sassvg-arrows#readme"
+}

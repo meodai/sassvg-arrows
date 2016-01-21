@@ -1,0 +1,90 @@
+@function str-replace ($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+@function url-encode ($string) {
+  $map: (
+    "%": "%25",
+    "<": "%3C",
+    ">": "%3E",
+    " ": "%20",
+    "!": "%21",
+    "*": "%2A",
+    "'": "%27",
+    '"': "%22",
+    "(": "%28",
+    ")": "%29",
+    ";": "%3B",
+    ":": "%3A",
+    "@": "%40",
+    "&": "%26",
+    "=": "%3D",
+    "+": "%2B",
+    "$": "%24",
+    ",": "%2C",
+    "/": "%2F",
+    "?": "%3F",
+    "#": "%23",
+    "[": "%5B",
+    "]": "%5D"
+  );
+  $new: $string;
+  @each $search, $replace in $map {
+    $new: str-replace($new, $search, $replace);
+  }
+  @return $new;
+}
+
+@function inline-svg ($string) {
+  @return url('data:image/svg+xml;charset=US-ASCII,#{url-encode($string)}');
+}
+
+@mixin arrow ($direction: right, $weight: 6, $width: 0.45em, $height: .8em, $color: #000, $fill: false) {
+  $svg: '';
+  $close: '';
+  $fillSvg: 'none';
+  @if $fill != false {
+    $close: 'Z';
+    $fillSvg: $fill;
+  }
+
+  &:after {
+    content: '';
+    display: inline-block;
+    width: $width; height: $height;
+
+    /* needs to be properly encoded for FF */
+    @if $direction == right {
+      $x: 20 + $weight;
+      $y: 40 + $weight;
+      $svg: '<svg viewBox="0 0 ' + $x + ' ' + $y + '" xmlns="http://www.w3.org/2000/svg"><path d="M1 41l20-20-20-20 ' + $close + '" stroke-width="' + $weight + '" stroke="' + $color + '" fill="' + $fillSvg + '"/></svg>';
+      background-size: auto 100%;
+    } @else if $direction == left {
+      $x: 20 + $weight;
+      $y: 40 + $weight;
+      $svg: '<svg viewBox="0 0 ' + $x + ' ' + $y + '" xmlns="http://www.w3.org/2000/svg"><path d="M22 41l-20-20 20-20 ' + $close + '" stroke-width="' + $weight + '" stroke="' + $color + '" fill="' + $fillSvg + '"/></svg>';
+      background-size: auto 100%;
+    } @else if $direction == up {
+      $x: 40 + $weight;
+      $y: 20 + $weight;
+      $svg: '<svg viewBox="0 0 ' + $x + ' ' + $y + '" xmlns="http://www.w3.org/2000/svg"><path d="M41 22l-20-20-20 20 ' + $close + '" stroke-width="' + $weight + '" stroke="' + $color + '" fill="' + $fillSvg + '"/></svg>';
+      background-size: 100% auto;
+    } @else if $direction == down {
+      $x: 40 + $weight;
+      $y: 20 + $weight;
+      $svg: '<svg viewBox="0 0 ' + $x + ' ' + $y + '" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l20 20 20-20 ' + $close + '" stroke-width="' + $weight + '" stroke="' + $color + '" fill="' + $fillSvg + '"/></svg>';
+      background-size: 100% auto;
+    } @else {
+      @warn 'no arrow direction called: #{$direction}'
+    }
+
+    background-image: inline-svg($svg);
+    background-repeat: no-repeat;
+    margin-left: 0.3em;
+    @content;
+  }
+}
