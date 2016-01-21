@@ -1,6 +1,6 @@
 {
   "name": "sassvg-arrows",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "sass SVG arrow generator",
   "main": "sassvg-arrows.scss",
   "scripts": {
